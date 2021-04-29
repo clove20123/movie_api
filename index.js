@@ -67,6 +67,8 @@ app.get('/movies', (req, res) => {
   res.json(topMovies);
 });
 
+app.use(express.static('public'));
+
 
 // listen for requests
 app.listen(8080, () => {
