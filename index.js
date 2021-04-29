@@ -57,18 +57,6 @@ let topMovies = [
 },
 ];
 
-// GET requests
-app.get('/', (req, res) => {
-  res.send('Welcome to my top movies!');
-});
-
-app.get('/documentation', (req, res) => {
-  res.sendFile('public/documentation.html', { root: __dirname });
-});
-
-app.get('/movies', (req, res) => {
-  res.json(topMovies);
-});
 
 app.use(express.static('public'));
 
@@ -85,6 +73,21 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');
 });
+
+
+// GET requests
+app.get('/', (req, res) => {
+  res.send('Welcome to my top movies!');
+});
+
+app.get('/documentation', (req, res) => {
+  res.sendFile('public/documentation.html', { root: __dirname });
+});
+
+app.get('/movies', (req, res) => {
+  res.json(topMovies);
+});
+
 
 // listen for requests
 app.listen(8080, () => {
