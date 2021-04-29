@@ -1,5 +1,8 @@
 const express = require('express');
 const app = express();
+morgan = require('morgan');
+const bodyParser = require('body-parser'),
+methodOverride = require('method-override');
 
 let topMovies = [
 {
@@ -69,6 +72,19 @@ app.get('/movies', (req, res) => {
 
 app.use(express.static('public'));
 
+app.use(morgan('common'));
+
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
+app.use(bodyParser.json());
+app.use(methodOverride());
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
 
 // listen for requests
 app.listen(8080, () => {
