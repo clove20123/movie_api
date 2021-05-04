@@ -3,60 +3,202 @@ const app = express();
 morgan = require('morgan');
 const bodyParser = require('body-parser'),
 methodOverride = require('method-override');
+uuid = require('uuid');
 
 let topMovies = [
 {
   title: 'Inception',
-  domesticGross: '$292,944,200',
+  genre: 'science fiction',
   director: 'Christopher Nolan'
 },
 {
   title: 'Gladiator',
-  domesticGross: '$277,119,800',
+  genre: 'action',
   director: 'Ridley Scott'
 },
 {
   title: 'Good Will Hunting',
-  domesticGross: '$234,953,100',
+  genre: 'drama',
   director: 'Gus Van Scott'
 },
 {
   title: 'Saving Private Ryan',
-  domesticGross: '$364,146,700',
+  genre: 'action',
   director: 'Steven Spielberg'
 },
 {
   title: 'Forrest Gump',
-  domesticGross: '$625,223,100',
+  genre: 'comedy-drama',
   director: 'Robert Zemeckis'
 },
 {
   title: 'Spotlight',
-  domesticGross: '$45,055,776',
+  genre: 'drama',
   director: 'Tom McCarthy'
 },
 {
   title: 'The Wolf of Wallstreet',
-  domesticGross: '$116,949,183',
+  genre: 'comedy-drama',
   director: 'Martin Scorsese'
 },
 {
   title: 'Django Unchained',
-  domesticGross: '$162,805,434',
+  genre: 'action',
   director: 'Quentin Tarantino'
 },
 {
   title: 'The Drop',
-  domesticGross: '$10,724,389',
+  genre: 'drama',
   director: 'Michael Roskam'
 },
 {
   title: 'Child 44',
-  domesticGross: '$1,224,330',
+  genre: 'thriller',
   director: 'Daniel Espinosa'
 },
 ];
 
+let directors = [
+  {
+    name: 'Christopher Nolan'
+  },
+
+  {
+    name: 'Ridley Scott'
+  },
+
+  {
+    name: 'Gus Van Scott'
+  },
+
+  {
+    name: 'Steven Spielberg'
+  },
+
+  {
+    name: 'Robert Zemeckis'
+  },
+
+  {
+    name: 'Tom McCarthy'
+  },
+
+  {
+    name: 'Martin Scorsese'
+  },
+
+  {
+    name: 'Quentin Tarantino'
+  },
+
+  {
+    name: 'Michael Roskam'
+  },
+
+  {
+    name: 'Daniel Espinosa'
+  }
+];
+
+let genre = [
+  {
+    category: 'science fiction'
+  },
+
+  {
+    category: 'action'
+  },
+
+  {
+    category: 'drama'
+  },
+
+  {
+    category: 'comedy-drama'
+  },
+
+  {
+    category: 'thriller'
+  }
+];
+
+// GET requests
+app.get('/', (req, res) => {
+  res.send('Welcome to my top movies!');
+});
+
+app.get('/documentation', (req, res) => {
+  res.sendFile('public/documentation.html', { root: __dirname });
+});
+
+//create route for movies(GET)
+app.get('/movie', (req, res) => {
+  res.json(topMovies);
+});
+
+//create route for movie titles(GET)
+app.get('/movie/:title',(req,res)=>{
+  res.json(topMovies.find((topMovies)=>{
+    return topMovies.title === req.params.title
+  }));
+})
+
+//create route for directors(GET)
+app.get('/directors',(req,res)=>{
+  res.jsonn(directors);
+})
+
+//create route for directors by name(GET)
+app.get('/directors/:name',(req,res)=>{
+  res.json(directors.find((directors)=>{
+    return directors.name === req.params.name
+  }));
+})
+
+//create route for genre(GET)
+app.get('/genre',(req,res)=>{
+  res.json(genre);
+})
+
+//add user (POST)
+app.post('/users/:username',(req,res)=>{
+  res.send('user added');
+})
+
+//remove user (DELETE)
+app.delete('/users/:username',(req,res)=>{
+  res.send('user deleted');
+})
+
+//create route for user favorites (GET)
+app.get('/users/:username/favorites',(req,res)=>{
+  res.send('users favorites');
+})
+
+//add list of favorites (POST)
+app.post('/users/:username/favorites',(req,res)=>{
+  res.send('add list of favorites');
+})
+
+//remove from favorites (DELETE)
+app.delete('/users/:username/favorites/:movie',(req,res)=>{
+  res.send('removed from favorites');
+})
+
+//create route for watchlist (GET)
+app.get('/users/:username/favorites/watchlist',(req,res)=>{
+  res.send('all movies on watchlist');
+})
+
+//add movie to favorites (POST)
+app.post('/users/:username/favorites/watchlist/:movie',(req,res)=>{
+  res.send('add to favorites');
+})
+
+//remove from watchlist (DELETE)
+app.delete('/users/:username/favorites/watchlist/:movie',(req,res)=>{
+  app.send('delete from watchlist');
+})
 
 app.use(express.static('public'));
 
@@ -73,21 +215,6 @@ app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');
 });
-
-
-// GET requests
-app.get('/', (req, res) => {
-  res.send('Welcome to my top movies!');
-});
-
-app.get('/documentation', (req, res) => {
-  res.sendFile('public/documentation.html', { root: __dirname });
-});
-
-app.get('/movies', (req, res) => {
-  res.json(topMovies);
-});
-
 
 // listen for requests
 app.listen(8080, () => {
