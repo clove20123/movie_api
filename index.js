@@ -122,6 +122,23 @@ let genre = [
   }
 ];
 
+app.use(express.static('public'));
+
+app.use(morgan('common'));
+
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
+app.use(bodyParser.json());
+app.use(methodOverride());
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+
+
 // GET requests
 app.get('/', (req, res) => {
   res.send('Welcome to my top movies!');
@@ -132,26 +149,26 @@ app.get('/documentation', (req, res) => {
 });
 
 //create route for movies(GET)
-app.get('/movie', (req, res) => {
+app.get('/movies', (req, res) => {
   res.json(topMovies);
 });
 
 //create route for movie titles(GET)
 app.get('/movie/:title',(req,res)=>{
-  res.json(topMovies.find((topMovies)=>{
-    return topMovies.title === req.params.title
+  res.json(topMovies.find((movie)=>{
+    return movie.title === req.params.title
   }));
 })
 
 //create route for directors(GET)
 app.get('/directors',(req,res)=>{
-  res.jsonn(directors);
+  res.json(directors);
 })
 
 //create route for directors by name(GET)
 app.get('/directors/:name',(req,res)=>{
-  res.json(directors.find((directors)=>{
-    return directors.name === req.params.name
+  res.json(directors.find((director)=>{
+    return director.name === req.params.name
   }));
 })
 
@@ -161,7 +178,7 @@ app.get('/genre',(req,res)=>{
 })
 
 //add user (POST)
-app.post('/users/:username',(req,res)=>{
+app.post('/users/',(req,res)=>{
   res.send('user added');
 })
 
@@ -181,7 +198,7 @@ app.post('/users/:username/favorites',(req,res)=>{
 })
 
 //remove from favorites (DELETE)
-app.delete('/users/:username/favorites/:movie',(req,res)=>{
+app.delete('/users/:username/favorites/:movieID',(req,res)=>{
   res.send('removed from favorites');
 })
 
@@ -191,30 +208,14 @@ app.get('/users/:username/favorites/watchlist',(req,res)=>{
 })
 
 //add movie to favorites (POST)
-app.post('/users/:username/favorites/watchlist/:movie',(req,res)=>{
+app.post('/users/:username/favorites/watchlist/:movieID',(req,res)=>{
   res.send('add to favorites');
 })
 
 //remove from watchlist (DELETE)
-app.delete('/users/:username/favorites/watchlist/:movie',(req,res)=>{
+app.delete('/users/:username/favorites/watchlist/:movieID',(req,res)=>{
   app.send('delete from watchlist');
 })
-
-app.use(express.static('public'));
-
-app.use(morgan('common'));
-
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
-
-app.use(bodyParser.json());
-app.use(methodOverride());
-
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
-});
 
 // listen for requests
 app.listen(8080, () => {
