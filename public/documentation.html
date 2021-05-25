@@ -35,7 +35,7 @@
 
         <tr>
           <td>Remove User</td>
-          <td>/user/:username</td>
+          <td>/users/:Username</td>
           <td>DELETE</td>
           <td>None</td>
           <td>A message indicating the user was removed</td>
@@ -43,7 +43,7 @@
 
         <tr>
           <td>Get favorite movies list</td>
-          <td>/user/:username/favorites</td>
+          <td>/users/:Username/favorites</td>
           <td>GET</td>
           <td>None</td>
           <td>A JSON object containing data about the list of favorite movies</td>
@@ -51,7 +51,7 @@
 
         <tr>
           <td>Add a movie to the list of favorites</td>
-          <td>/users/:username/favorites</td>
+          <td>/users/:Username/favorites</td>
           <td>POST</td>
           <td>A JSON object holding data about the movie to add to the favorites list</td>
           <td>A JSON object containing data about the movie to add to the favorites lsit </td>
@@ -59,31 +59,7 @@
 
         <tr>
           <td>Remove a movie from the favorites list</td>
-          <td>/users/:username/favorites/:movieID</td>
-          <td>DELETE</td>
-          <td>None</td>
-          <td>A message indicating the movie was removed</td>
-        </tr>
-
-        <tr>
-          <td>Get watchlist</td>
-          <td>/users/:username/favorites/watchlist</td>
-          <td>GET</td>
-          <td>None</td>
-          <td>A JSON object containing data of all the movies on the watchlist</td>
-        </tr>
-
-        <tr>
-          <td>Add a movie to the watchlist</td>
-          <td>/users/:username/favorites/watchlist/:movieID</td>
-          <td>POST</td>
-          <td>A JSON object holding data about the movie that was added to the watchlist</td>
-          <td>A JSON object containing data about the movies</td>
-        </tr>
-
-        <tr>
-          <td>Delete a movie from the watchlist</td>
-          <td>/users/:username/favorites/watchlist/:movieID</td>
+          <td>/users/:Username/favorites/:movieID</td>
           <td>DELETE</td>
           <td>None</td>
           <td>A message indicating the movie was removed</td>
@@ -99,7 +75,7 @@
 
         <tr>
           <td>Get a list of movies by title</td>
-          <td>/movies/:title</td>
+          <td>/movies/:Title</td>
           <td>GET</td>
           <td>None</td>
           <td>A JSON object containing data about the movie that was selected</td>
@@ -115,7 +91,7 @@
 
         <tr>
           <td>Get a list of Directors by name</td>
-          <td>directors/:name</td>
+          <td>directors/:Name</td>
           <td>GET</td>
           <td>None</td>
           <td>A JSON object containing data about the director selected</td>
