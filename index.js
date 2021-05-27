@@ -12,6 +12,8 @@ const Users = Models.User;
 
 mongoose.connect('mongodb://localhost:27017/myMoviesDB', {useNewUrlParser: true, useUnifiesTopology: true});
 
+const passport = require('passport');
+require('./passport');
 
 
 
@@ -25,6 +27,8 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json());
 app.use(methodOverride());
+
+let auth = require('./auth')(app);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
@@ -42,7 +46,7 @@ app.get('/documentation', (req, res) => {
 });
 
 //create route for movies(GET)
-app.get('/movies',(req,res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }), (req,res) => {
   Movies.find()
     .then((movies) => {
       res.status(201).json(movies);
