@@ -13,7 +13,8 @@ const { check, validationResult } = require('express-validator');
 const Movies = Models.Movie;
 const Users = Models.User;
 
-mongoose.connect('mongodb://localhost:27017/myMoviesDB', {useNewUrlParser: true, useUnifiesTopology: true});
+//mongoose.connect('mongodb://localhost:27017/myMoviesDB', {useNewUrlParser: true, useUnifiesTopology: true});
+mongoose.connect('process.env.CONNECTION_URI', {useNewUrlParser: true, useUnifiesTopology: true});
 
 const passport = require('passport');
 require('./passport');
@@ -263,3 +264,8 @@ const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0', () => {
   console.log('Listening on Port ' + port);
 });
+
+
+
+//mongoimport --uri mongodb+srv://myMoviesDBadmin:Chan123!!@mymoviesdb.mfvfn.mongodb.net/myMoviesDB --collection users --type json --file \movie_api\users.data.json
+//mongo "mongodb+srv://mymoviesdb.mfvfn.mongodb.net/myMoviesDB" --username myMoviesDBadmin
