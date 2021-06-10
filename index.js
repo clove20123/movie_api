@@ -9,16 +9,14 @@ app.use(cors());
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 const { check, validationResult } = require('express-validator');
+const passport = require('passport');
+require('./passport');
 
 const Movies = Models.Movie;
 const Users = Models.User;
 
 //mongoose.connect('mongodb://localhost:27017/myMoviesDB', {useNewUrlParser: true, useUnifiesTopology: true});
-mongoose.connect('process.env.CONNECTION_URI', {useNewUrlParser: true, useUnifiesTopology: true});
-
-const passport = require('passport');
-require('./passport');
-
+mongoose.connect('process.env.CONNECTION_URI', {useNewUrlParser: true, useUnifiedTopology: true});
 
 
 app.use(express.static('public'));
@@ -138,7 +136,7 @@ app.post('/users',
   //or use .isLength({min: 5}) which means
   //minimum value of 5 characters are only allowed
   [
-    check('Username', 'Username is required').isLength({min: 5}),
+    check('Username', 'Username is required').isLength({min: 3}),
     check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
     check('Password', 'Password is required').not().isEmpty(),
     check('Email', 'Email does not appear to be valid').isEmail()
@@ -264,8 +262,3 @@ const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0', () => {
   console.log('Listening on Port ' + port);
 });
-
-
-
-//mongoimport --uri mongodb+srv://myMoviesDBadmin:Chan123!!@mymoviesdb.mfvfn.mongodb.net/myMoviesDB --collection users --type json --file \movie_api\users.data.json
-//mongo "mongodb+srv://mymoviesdb.mfvfn.mongodb.net/myMoviesDB" --username myMoviesDBadmin
