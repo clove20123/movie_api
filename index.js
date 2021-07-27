@@ -5,7 +5,6 @@ const bodyParser = require('body-parser'),
 methodOverride = require('method-override');
 uuid = require('uuid');
 const cors = require('cors');
-app.use(cors());
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 const { check, validationResult } = require('express-validator');
@@ -30,6 +29,23 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(methodOverride());
 
+let allowedOrgins = ['http://localhost:8080', 'http://localhost:1234', 'https://my-movie-api-20123.herokuapp.com/'];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        let message =
+          "The CORS policy for this application does not allow access from origin " +
+          origin;
+        return callback(new Error(message), false);
+      }
+      return callback(null, true);
+    },
+  })
+);
+
 let auth = require('./auth')(app);
 
 app.use((err, req, res, next) => {
@@ -48,7 +64,7 @@ app.get('/documentation', (req, res) => {
 });
 
 //create route for movies(GET)
-app.get("/movies", function (req, res) {
+app.get("/movies", passport.authenticate('jwt', { session: false }),(req,res)=> {
   Movies.find()
     .then(function (movies) {
       res.status(201).json(movies);
