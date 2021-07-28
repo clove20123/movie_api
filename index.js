@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(methodOverride());
 
-let allowedOrgins = ['http://localhost:8080', 'http://localhost:1234', 'https://my-movie-api-20123.herokuapp.com/'];
+//let allowedOrgins = ['http://localhost:8080', 'http://localhost:1234', 'https://my-movie-api-20123.herokuapp.com/'];
 
 app.use(
   cors({
