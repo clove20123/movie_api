@@ -14,7 +14,7 @@ require('./passport');
 const Movies = Models.Movie;
 const Users = Models.User;
 
-//mongoose.connect('mongodb://localhost:27017/myMoviesDB', {useNewUrlParser: true, useUnifiesTopology: true});
+//mongoose.connect('mongodb+srv://myMoviesDBadmin:Chan123!!@mymoviesdb.mfvfn.mongodb.net/myMoviesDB?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiesTopology: true});
 mongoose.connect(process.env.CONNECTION_URI, {useNewUrlParser: true, useUnifiedTopology: true});
 
 
